@@ -1,6 +1,12 @@
-import React from 'react';
+import { createUserWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
+import auth from '../firebase.init';
+import EmailPasswordSignUp from './EmailPasswordSignUp';
+
 
 const SignUp = () => {
+
+    const { emailPasswordSignUp } = EmailPasswordSignUp()
 
     const style = {
         form:'w-auto p-10 bg-slate-100 shadow-lg h-auto flex flex-col border justify-center items-center ',
@@ -9,13 +15,23 @@ const SignUp = () => {
     }
 
 
+    const handleSubmit = (event) => {
+        event.preventDefault()
+        const name = event.target.name.value;
+        const email = event.target.email.value;
+        const password = event.target.password.value;
+        // console.log(name,password,email)
+        emailPasswordSignUp(name,email,password)     
+    }
+   
+
     return (
         <div className='flex items-center justify-center mt-60 '>
-            <form onSubmit='submit' className={style.form}>
-                <input className={style.input} type="text" id="name"  placeholder='Name'/>
-                <input className={style.input} type="email" id="email"  placeholder='Email'/>
-                <input className={style.input} type="password" id="password" placeholder='Password' />
-                <button className={style.btn} >Sign Up</button>
+            <form onSubmit={handleSubmit} className={style.form}>
+                <input className={style.input}  required type="text" id="name"  placeholder='Name'/>
+                <input className={style.input}  required type="email" id="email"  placeholder='Email'/>
+                <input className={style.input}  required type="password" id="password" placeholder='Password' />
+                <button className={style.btn} type='submit' >Sign Up</button>
             </form>
         </div>
     );
